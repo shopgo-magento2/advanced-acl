@@ -15,10 +15,6 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:attributeGroup name="containersAttributeGroup">
-        <xs:attribute name="id" type="typeId" use="required"/>
-    </xs:attributeGroup>
-
     <xs:attributeGroup name="usersAttributeGroup">
         <xs:attribute name="name" type="xs:string" use="required"/>
         <xs:attribute name="system" type="xs:string" use="required"/>
@@ -70,6 +66,10 @@
         </xs:annotation>
     </xs:element>
 
+    <xs:attributeGroup name="containersAttributeGroup">
+        <xs:attribute name="id" type="typeId" use="required"/>
+    </xs:attributeGroup>
+
     <xs:element name="system">
         <xs:complexType>
             <xs:sequence>
@@ -92,6 +92,11 @@
         </xs:unique>
     </xs:element>
 
+    <xs:attributeGroup name="elementsAttributeGroup">
+        <xs:attribute name="id" type="typeId" use="required"/>
+        <xs:attribute name="disabled" type="xs:int" use="required"/>
+    </xs:attributeGroup>
+
     <xs:element name="tab">
         <xs:complexType>
             <xs:sequence>
@@ -100,7 +105,7 @@
                 </xs:choice>
             </xs:sequence>
 
-            <xs:attributeGroup ref="containersAttributeGroup"/>
+            <xs:attributeGroup ref="elementsAttributeGroup"/>
         </xs:complexType>
 
         <xs:unique name="uniqueSectionId">
@@ -128,7 +133,7 @@
                 </xs:choice>
             </xs:sequence>
 
-            <xs:attributeGroup ref="containersAttributeGroup"/>
+            <xs:attributeGroup ref="elementsAttributeGroup"/>
         </xs:complexType>
 
         <xs:unique name="uniqueGroupId">
@@ -141,11 +146,6 @@
             <xs:field xpath="@id"/>
         </xs:unique>
     </xs:element>
-
-    <xs:attributeGroup name="elementsAttributeGroup">
-        <xs:attribute name="id" type="typeId" use="required"/>
-        <xs:attribute name="disabled" type="xs:int" use="required"/>
-    </xs:attributeGroup>
 
     <xs:element name="group">
         <xs:annotation>

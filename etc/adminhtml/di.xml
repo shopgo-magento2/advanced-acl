@@ -7,4 +7,10 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Magento\Config\Block\System\Config\Form" type="ShopGo\AdvancedAcl\Block\System\Config\Form"/>
+    <type name="Magento\Config\Model\Config\Structure\Element\Tab">
+        <plugin name="element_tab" type="ShopGo\AdvancedAcl\Model\Plugin\Config\Structure\Element\Tab" sortOrder="1" disabled="false"/>
+    </type>
+    <type name="Magento\Config\Model\Config\Structure\Element\Section">
+        <plugin name="element_tab" type="ShopGo\AdvancedAcl\Model\Plugin\Config\Structure\Element\Section" sortOrder="1" disabled="false"/>
+    </type>
 </config>
