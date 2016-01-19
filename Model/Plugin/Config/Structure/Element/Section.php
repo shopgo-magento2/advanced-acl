@@ -30,6 +30,7 @@ class Section
      * Check whether section is allowed for current user
      *
      * @param ElementSection $subject
+     * @param boolean $result
      * @return boolean
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

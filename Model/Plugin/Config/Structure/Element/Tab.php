@@ -30,6 +30,7 @@ class Tab
      * Check whether tab is visible
      *
      * @param ElementTab $subject
+     * @param boolean $result
      * @return boolean
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
