@@ -100,7 +100,7 @@
     <xs:element name="tab">
         <xs:complexType>
             <xs:sequence>
-                <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="section"/>
                 </xs:choice>
             </xs:sequence>
@@ -128,7 +128,7 @@
 
         <xs:complexType>
             <xs:sequence>
-                <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="group" minOccurs="1" maxOccurs="unbounded"/>
                 </xs:choice>
             </xs:sequence>
