@@ -39,9 +39,9 @@ class Tab
         $elementData = $subject->getData();
 
         $access = $this->_advAclModelSystemConfig
-            ->getSystemConfigAccess(array(
-                'tab' => array('id' => $subject->getData()['id'])
-            ));
+            ->getSystemConfigAccess([
+                'tab' => ['id' => $subject->getData()['id']]
+            ]);
 
         return $result && $access;
     }

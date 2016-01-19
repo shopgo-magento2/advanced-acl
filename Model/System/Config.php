@@ -288,7 +288,7 @@ class Config extends \Magento\Framework\Config\Reader\Filesystem
         }
 
         $elements = array_merge(
-            array('system' => array('id' => $adminUserAcl)),
+            ['system' => ['id' => $adminUserAcl]],
             $elements
         );
 

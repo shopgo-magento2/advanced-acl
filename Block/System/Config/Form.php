@@ -70,11 +70,11 @@ class Form extends \Magento\Config\Block\System\Config\Form
         if ($section && $section->isVisible($this->getWebsiteCode(), $this->getStoreCode())) {
             foreach ($section->getChildren() as $group) {
                 $access = $this->_advAclModelSystemConfig
-                    ->getSystemConfigAccess(array(
-                        'tab'     => array('id' => $section->getData()['tab']),
-                        'section' => array('id' => $section->getId()),
-                        'group'   => array('id' => $group->getId())
-                    ));
+                    ->getSystemConfigAccess([
+                        'tab'     => ['id' => $section->getData()['tab']],
+                        'section' => ['id' => $section->getId()],
+                        'group'   => ['id' => $group->getId()]
+                    ]);
 
                 if ($access) {
                     $this->_initGroup($group, $section, $form);
@@ -113,12 +113,12 @@ class Form extends \Magento\Config\Block\System\Config\Form
         /** @var $element \Magento\Config\Model\Config\Structure\Element\Field */
         foreach ($group->getChildren() as $element) {
             $access = $this->_advAclModelSystemConfig
-                ->getSystemConfigAccess(array(
-                    'tab'     => array('id' => $section->getData()['tab']),
-                    'section' => array('id' => $section->getId()),
-                    'group'   => array('id' => $group->getId()),
-                    'field'   => array('id' => $element->getId())
-                ));
+                ->getSystemConfigAccess([
+                    'tab'     => ['id' => $section->getData()['tab']],
+                    'section' => ['id' => $section->getId()],
+                    'group'   => ['id' => $group->getId()],
+                    'field'   => ['id' => $element->getId()]
+                ]);
 
             if (!$access) {
                 continue;
