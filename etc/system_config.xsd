@@ -94,7 +94,7 @@
 
     <xs:attributeGroup name="elementsAttributeGroup">
         <xs:attribute name="id" type="typeId" use="required"/>
-        <xs:attribute name="disabled" type="xs:int" use="required"/>
+        <xs:attribute name="disabled" type="xs:int" use="optional"/>
     </xs:attributeGroup>
 
     <xs:element name="tab">

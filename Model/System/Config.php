@@ -296,8 +296,11 @@ class Config extends \Magento\Framework\Config\Reader\Filesystem
             $this->_getSystemConfigXpath($elements)
         );
 
-        return $element->item(0) !== null
-            ? !$element->item(0)->getAttribute('disabled')
-            : $access;
+        if ($element->item(0) !== null
+            && $element->item(0)->getAttribute('disabled') !== '') {
+            $access = !$element->item(0)->getAttribute('disabled');
+        }
+
+        return $access;
     }
 }
