@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © 2015 ShopGo. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="config">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="users"/>
+                <xs:element ref="system"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:attributeGroup name="usersAttributeGroup">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="system" type="xs:string" use="required"/>
+    </xs:attributeGroup>
+
+    <xs:element name="users">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="1" maxOccurs="unbounded">
+                    <xs:element ref="user"/>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+
+        <xs:unique name="uniqueUserName">
+            <xs:annotation>
+                <xs:documentation>
+                    Attribute name is unique under all users
+                </xs:documentation>
+            </xs:annotation>
+            <xs:selector xpath="user"/>
+            <xs:field xpath="@name"/>
+        </xs:unique>
+    </xs:element>
+
+    <xs:element name="user">
+        <xs:annotation>
+            <xs:documentation>
+                User Resource. Recursive complex type
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="exclude"/>
+                </xs:choice>
+            </xs:sequence>
+
+            <xs:attributeGroup ref="usersAttributeGroup"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="exclude">
+        <xs:annotation>
+            <xs:documentation>
+                User Resource. Recursive complex type
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:attributeGroup name="containersAttributeGroup">
+        <xs:attribute name="id" type="typeId" use="required"/>
+    </xs:attributeGroup>
+
+    <xs:element name="system">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="1" maxOccurs="unbounded">
+                    <xs:element ref="tab"/>
+                </xs:choice>
+            </xs:sequence>
+
+            <xs:attributeGroup ref="containersAttributeGroup"/>
+        </xs:complexType>
+
+        <xs:unique name="uniqueTabId">
+            <xs:annotation>
+                <xs:documentation>
+                    Attribute id is unique under all sections
+                </xs:documentation>
+            </xs:annotation>
+            <xs:selector xpath="tab"/>
+            <xs:field xpath="@id"/>
+        </xs:unique>
+    </xs:element>
+
+    <xs:attributeGroup name="elementsAttributeGroup">
+        <xs:attribute name="id" type="typeId" use="required"/>
+        <xs:attribute name="disabled" type="xs:int" use="optional"/>
+    </xs:attributeGroup>
+
+    <xs:element name="tab">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="section"/>
+                </xs:choice>
+            </xs:sequence>
+
+            <xs:attributeGroup ref="elementsAttributeGroup"/>
+        </xs:complexType>
+
+        <xs:unique name="uniqueSectionId">
+            <xs:annotation>
+                <xs:documentation>
+                    Attribute id is unique under all sections
+                </xs:documentation>
+            </xs:annotation>
+            <xs:selector xpath="section"/>
+            <xs:field xpath="@id"/>
+        </xs:unique>
+    </xs:element>
+
+    <xs:element name="section">
+        <xs:annotation>
+            <xs:documentation>
+                Section Resource. Recursive complex type
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="group" minOccurs="1" maxOccurs="unbounded"/>
+                </xs:choice>
+            </xs:sequence>
+
+            <xs:attributeGroup ref="elementsAttributeGroup"/>
+        </xs:complexType>
+
+        <xs:unique name="uniqueGroupId">
+            <xs:annotation>
+                <xs:documentation>
+                    Attribute id is unique under all groups for each section
+                </xs:documentation>
+            </xs:annotation>
+            <xs:selector xpath="group"/>
+            <xs:field xpath="@id"/>
+        </xs:unique>
+    </xs:element>
+
+    <xs:element name="group">
+        <xs:annotation>
+            <xs:documentation>
+                Group Resource. Recursive complex type
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="field"/>
+                    <xs:element ref="group" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:choice>
+            </xs:sequence>
+
+            <xs:attributeGroup ref="elementsAttributeGroup"/>
+        </xs:complexType>
+
+        <xs:unique name="uniqueFieldId">
+            <xs:annotation>
+                <xs:documentation>
+                    Attribute id is unique under all fields for each group
+                </xs:documentation>
+            </xs:annotation>
+            <xs:selector xpath="field"/>
+            <xs:field xpath="@id"/>
+        </xs:unique>
+    </xs:element>
+
+    <xs:element name="field">
+        <xs:annotation>
+            <xs:documentation>
+                Field Resource. Recursive complex type
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:attributeGroup ref="elementsAttributeGroup"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="typeTabId">
+        <xs:annotation>
+            <xs:documentation>
+                Item id attribute for element tab can has only [a-zA-Z0-9/_]. Minimal length 3 symbol. Case sensitive.
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-zA-Z0-9_]{1,}"/>
+            <xs:minLength value="3"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="typeId">
+        <xs:annotation>
+            <xs:documentation>
+                Item id attribute for elements section, group, field can has only [a-zA-Z0-9/_]. Minimal length 2 symbol. Case sensitive.
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-zA-Z0-9_]{1,}"/>
+            <xs:minLength value="2"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

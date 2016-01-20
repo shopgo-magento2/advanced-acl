@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 ShopGo. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Config\Block\System\Config\Form" type="ShopGo\AdvancedAcl\Block\System\Config\Form"/>
+    <type name="Magento\Config\Model\Config\Structure\Element\Tab">
+        <plugin name="element_tab" type="ShopGo\AdvancedAcl\Model\Plugin\Config\Structure\Element\Tab" sortOrder="1" disabled="false"/>
+    </type>
+    <type name="Magento\Config\Model\Config\Structure\Element\Section">
+        <plugin name="element_tab" type="ShopGo\AdvancedAcl\Model\Plugin\Config\Structure\Element\Section" sortOrder="1" disabled="false"/>
+    </type>
+    <virtualType name="ShopGo\AdvancedAcl\Model\System\Config\Reader" type="ShopGo\AdvancedAcl\Model\Config\Reader">
+        <arguments>
+            <argument name="schemaLocator" xsi:type="object">ShopGo\AdvancedAcl\Model\System\Config\SchemaLocator</argument>
+            <argument name="fileName" xsi:type="string">system_config.xml</argument>
+        </arguments>
+    </virtualType>
+    <type name="ShopGo\AdvancedAcl\Model\System\Config">
+        <arguments>
+            <argument name="configReader" xsi:type="object">ShopGo\AdvancedAcl\Model\System\Config\Reader</argument>
+        </arguments>
+    </type>
+</config>
