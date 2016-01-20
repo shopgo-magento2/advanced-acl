@@ -13,4 +13,15 @@
     <type name="Magento\Config\Model\Config\Structure\Element\Section">
         <plugin name="element_tab" type="ShopGo\AdvancedAcl\Model\Plugin\Config\Structure\Element\Section" sortOrder="1" disabled="false"/>
     </type>
+    <virtualType name="ShopGo\AdvancedAcl\Model\System\Config\Reader" type="ShopGo\AdvancedAcl\Model\Config\Reader">
+        <arguments>
+            <argument name="schemaLocator" xsi:type="object">ShopGo\AdvancedAcl\Model\System\Config\SchemaLocator</argument>
+            <argument name="fileName" xsi:type="string">system_config.xml</argument>
+        </arguments>
+    </virtualType>
+    <type name="ShopGo\AdvancedAcl\Model\System\Config">
+        <arguments>
+            <argument name="configReader" xsi:type="object">ShopGo\AdvancedAcl\Model\System\Config\Reader</argument>
+        </arguments>
+    </type>
 </config>
