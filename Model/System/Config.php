@@ -69,7 +69,7 @@ class Config extends \Magento\Framework\Model\AbstractModel
         }
 
         $elements = array_merge(
-            ['system' => ['id' => $adminUserAcl]],
+            ['system' => ['id' => $adminUserAcl->getAttribute('system')]],
             $elements
         );
 

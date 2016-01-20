@@ -235,7 +235,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         }
 
         return $element->item(0) !== null
-            ? $element->item(0)->getAttribute('system')
+            ? $element->item(0)
             : false;
     }
 }
