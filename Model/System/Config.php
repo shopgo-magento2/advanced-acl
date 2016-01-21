@@ -25,29 +25,6 @@ class Config extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Get system config XPath
-     *
-     * @param array $elements
-     * @return string
-     */
-    protected function _getSystemConfigXpath($elements)
-    {
-        $xpath = '/';
-
-        foreach ($elements as $element => $attributes) {
-            $attributesText = '';
-
-            foreach ($attributes as $attrKey => $attrVal) {
-                $attributesText .= '[@' . $attrKey . '="' . $attrVal . '"]';
-            }
-
-            $xpath .= '/' . $element . $attributesText;
-        }
-
-        return $xpath;
-    }
-
-    /**
      * Get system config access permission
      *
      * @param array $elements
@@ -69,12 +46,18 @@ class Config extends \Magento\Framework\Model\AbstractModel
         }
 
         $elements = array_merge(
-            ['system' => ['id' => $adminUserAcl->getAttribute('system')]],
+            [
+                'system' => [
+                    'attributes' => [
+                        'id' => $adminUserAcl->getAttribute('system')
+                    ]
+                ]
+            ],
             $elements
         );
 
         $element = $this->_configReader->getAclDomXpathValue(
-            $this->_getSystemConfigXpath($elements)
+            $this->_configReader->getConfigXpath($elements)
         );
 
         if ($element->item(0) !== null

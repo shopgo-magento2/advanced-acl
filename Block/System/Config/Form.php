@@ -71,9 +71,9 @@ class Form extends \Magento\Config\Block\System\Config\Form
             foreach ($section->getChildren() as $group) {
                 $access = $this->_advAclModelSystemConfig
                     ->getSystemConfigAccess([
-                        'tab'     => ['id' => $section->getData()['tab']],
-                        'section' => ['id' => $section->getId()],
-                        'group'   => ['id' => $group->getId()]
+                        'tab'     => ['attributes' => ['id' => $section->getData()['tab']]],
+                        'section' => ['attributes' => ['id' => $section->getId()]],
+                        'group'   => ['attributes' => ['id' => $group->getId()]]
                     ]);
 
                 if ($access) {
@@ -114,10 +114,10 @@ class Form extends \Magento\Config\Block\System\Config\Form
         foreach ($group->getChildren() as $element) {
             $access = $this->_advAclModelSystemConfig
                 ->getSystemConfigAccess([
-                    'tab'     => ['id' => $section->getData()['tab']],
-                    'section' => ['id' => $section->getId()],
-                    'group'   => ['id' => $group->getId()],
-                    'field'   => ['id' => $element->getId()]
+                    'tab'     => ['attributes' => ['id' => $section->getData()['tab']]],
+                    'section' => ['attributes' => ['id' => $section->getId()]],
+                    'group'   => ['attributes' => ['id' => $group->getId()]],
+                    'field'   => ['attributes' => ['id' => $element->getId()]]
                 ]);
 
             if (!$access) {

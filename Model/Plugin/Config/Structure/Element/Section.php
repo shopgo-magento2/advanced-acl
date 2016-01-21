@@ -40,8 +40,8 @@ class Section
 
         $access = $this->_advAclModelSystemConfig
             ->getSystemConfigAccess([
-                'tab'     => ['id' => $elementData['tab']],
-                'section' => ['id' => $elementData['id']]
+                'tab'     => ['attributes' => ['id' => $elementData['tab']]],
+                'section' => ['attributes' => ['id' => $elementData['id']]]
             ]);
 
         return $result && $access;

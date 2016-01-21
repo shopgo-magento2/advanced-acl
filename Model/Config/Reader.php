@@ -238,4 +238,35 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
             ? $element->item(0)
             : false;
     }
+
+    /**
+     * Get config xpath
+     *
+     * @param array $element
+     * @return string
+     */
+    public function getConfigXpath($element)
+    {
+        $xpath = '/';
+
+        foreach ($element as $_element => $data) {
+            $attributesText = '';
+            $valueText = '';
+
+            switch (true) {
+                case isset($data['attributes']):
+                    foreach ($data['attributes'] as $attrKey => $attrVal) {
+                        $attributesText .= '[@' . $attrKey . '="' . $attrVal . '"]';
+                    }
+                    break;
+                case isset($data['value']):
+                    $valueText .= '[.="' . $data['value'] . '"]';
+                    break;
+            }
+
+            $xpath .= '/' . $_element . $attributesText . $valueText;
+        }
+
+        return $xpath;
+    }
 }
