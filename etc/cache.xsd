@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © 2015 ShopGo. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="config">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="users"/>
+                <xs:element ref="cache"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:attributeGroup name="usersAttributeGroup">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="cache" type="xs:string" use="required"/>
+    </xs:attributeGroup>
+
+    <xs:element name="users">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="1" maxOccurs="unbounded">
+                    <xs:element ref="user"/>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+
+        <xs:unique name="uniqueUserName">
+            <xs:annotation>
+                <xs:documentation>
+                    Attribute name is unique under all users
+                </xs:documentation>
+            </xs:annotation>
+            <xs:selector xpath="user"/>
+            <xs:field xpath="@name"/>
+        </xs:unique>
+    </xs:element>
+
+    <xs:element name="user">
+        <xs:annotation>
+            <xs:documentation>
+                User Resource. Recursive complex type
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="exclude"/>
+                </xs:choice>
+            </xs:sequence>
+
+            <xs:attributeGroup ref="usersAttributeGroup"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="exclude">
+        <xs:annotation>
+            <xs:documentation>
+                User Resource. Recursive complex type
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:attributeGroup name="containersAttributeGroup">
+        <xs:attribute name="id" type="typeId" use="required"/>
+    </xs:attributeGroup>
+
+    <xs:element name="cache">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="1" maxOccurs="unbounded">
+                    <xs:element ref="disallowed_types"/>
+                    <xs:element ref="additional"/>
+                </xs:choice>
+            </xs:sequence>
+
+            <xs:attributeGroup ref="containersAttributeGroup"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="disallowed_types">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="cache"/>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="type">
+        <xs:annotation>
+            <xs:documentation>
+                Cache Type Resource. Recursive complex type
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:element name="additional">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="1">
+                    <xs:element ref="media"/>
+                    <xs:element ref="static_files"/>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="media">
+        <xs:annotation>
+            <xs:documentation>
+                Media Resource. Recursive complex type
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:element name="static_files">
+        <xs:annotation>
+            <xs:documentation>
+                Static Files Resource. Recursive complex type
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:simpleType name="typeId">
+        <xs:annotation>
+            <xs:documentation>
+                Item id attribute for elements section, group, field can has only [a-zA-Z0-9/_]. Minimal length 2 symbol. Case sensitive.
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-zA-Z0-9_]{1,}"/>
+            <xs:minLength value="2"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
