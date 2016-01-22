@@ -10,6 +10,7 @@
     <preference for="Magento\Backend\Model\Cache\ResourceModel\Grid\Collection" type="ShopGo\AdvancedAcl\Model\Cache\ResourceModel\Grid\Collection"/>
     <preference for="Magento\Backend\Controller\Adminhtml\Cache\FlushSystem" type="ShopGo\AdvancedAcl\Controller\Adminhtml\Cache\FlushSystem"/>
     <preference for="Magento\Backend\Controller\Adminhtml\Cache\FlushAll" type="ShopGo\AdvancedAcl\Controller\Adminhtml\Cache\FlushAll"/>
+    <preference for="Magento\Backend\Controller\Adminhtml\Cache\MassRefresh" type="ShopGo\AdvancedAcl\Controller\Adminhtml\Cache\MassRefresh"/>
     <type name="Magento\Config\Model\Config\Structure\Element\Tab">
         <plugin name="element_tab" type="ShopGo\AdvancedAcl\Model\Plugin\Config\Structure\Element\Tab" sortOrder="1" disabled="false"/>
     </type>
