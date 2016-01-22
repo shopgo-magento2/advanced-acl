@@ -12,6 +12,7 @@
     <preference for="Magento\Backend\Controller\Adminhtml\Cache\FlushAll" type="ShopGo\AdvancedAcl\Controller\Adminhtml\Cache\FlushAll"/>
     <preference for="Magento\Backend\Controller\Adminhtml\Cache\MassRefresh" type="ShopGo\AdvancedAcl\Controller\Adminhtml\Cache\MassRefresh"/>
     <preference for="Magento\Backend\Controller\Adminhtml\Cache\MassEnable" type="ShopGo\AdvancedAcl\Controller\Adminhtml\Cache\MassEnable"/>
+    <preference for="Magento\Backend\Controller\Adminhtml\Cache\CleanMedia" type="ShopGo\AdvancedAcl\Controller\Adminhtml\Cache\CleanMedia"/>
     <type name="Magento\Config\Model\Config\Structure\Element\Tab">
         <plugin name="element_tab" type="ShopGo\AdvancedAcl\Model\Plugin\Config\Structure\Element\Tab" sortOrder="1" disabled="false"/>
     </type>
