@@ -58,35 +58,6 @@ class Config extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Get cache config xpath
-     *
-     * @param array $element
-     * @return string
-     */
-    protected function _getCacheConfigXpath($element)
-    {
-        $xpath = '/';
-
-        foreach ($element as $_element => $data) {
-            $attributesText = '';
-            $valueText = '';
-
-            if (isset($data['attributes'])) {
-                foreach ($data['attributes'] as $attrKey => $attrVal) {
-                    $attributesText .= '[@' . $attrKey . '="' . $attrVal . '"]';
-                }
-            }
-            if (isset($data['value'])) {
-                $valueText .= '[.="' . $data['value'] . '"]';
-            }
-
-            $xpath .= '/' . $_element . $attributesText . $valueText;
-        }
-
-        return $xpath;
-    }
-
-    /**
      * Get element node value
      *
      * @param array $element
