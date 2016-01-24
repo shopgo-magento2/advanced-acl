@@ -28,13 +28,18 @@ class Config extends \Magento\Framework\Model\AbstractModel
      * Get menu item access permission
      *
      * @param array $element
+     * @param boolean $raw
      * @return int|boolean
      */
-    public function getMenuItemAccess($element)
+    public function getMenuItemAccess($element, $raw = false)
     {
         $access = $this->_configReader->getConfigElement(
             $element, 'menu', 'getAttribute', 'disabled'
         );
+
+        if ($raw) {
+            return $access;
+        }
 
         return $access !== null ? !$access : true;
     }
