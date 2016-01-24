@@ -59,4 +59,15 @@
             <argument name="configReader" xsi:type="object">ShopGo\AdvancedAcl\Model\Menu\Config\Reader</argument>
         </arguments>
     </type>
+    <virtualType name="ShopGo\AdvancedAcl\Model\Authorization\Resource\Config\Reader" type="ShopGo\AdvancedAcl\Model\Config\Reader">
+        <arguments>
+            <argument name="schemaLocator" xsi:type="object">ShopGo\AdvancedAcl\Model\Authorization\Resource\Config\SchemaLocator</argument>
+            <argument name="fileName" xsi:type="string">authorization_resource.xml</argument>
+        </arguments>
+    </virtualType>
+    <type name="ShopGo\AdvancedAcl\Model\Authorization\Resource\Config">
+        <arguments>
+            <argument name="configReader" xsi:type="object">ShopGo\AdvancedAcl\Model\Authorization\Resource\Config\Reader</argument>
+        </arguments>
+    </type>
 </config>
