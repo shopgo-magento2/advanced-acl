@@ -6,6 +6,7 @@
 
 // @codingStandardsIgnoreFile
 ?>
+<?php if ($this->isCacheAdditionalAllowed()): ?>
 <div class="additional-cache-management">
     <h2>
         <span><?php /* @escapeNotVerified */ echo __('Additional Cache Management') ?></span>
@@ -34,3 +35,4 @@
     <?php endif; ?>
     <?php echo $block->getChildHtml(); ?>
 </div>
+<?php endif; ?>

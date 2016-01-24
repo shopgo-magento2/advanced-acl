@@ -30,6 +30,20 @@ class Additional extends \Magento\Backend\Block\Cache\Additional
     }
 
     /**
+     * Check if cache additional block is enabled
+     *
+     * @return boolean
+     */
+    public function isCacheAdditionalAllowed()
+    {
+        $access = $this->_advAclModelCacheConfig->getCachePageElementAccess([
+            'additional' => []
+        ]);
+
+        return $access;
+    }
+
+    /**
      * Check if clean JS/CSS cache is enabled
      *
      * @return boolean
