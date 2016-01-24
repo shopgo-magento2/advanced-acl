@@ -73,7 +73,7 @@
     <xs:element name="cache">
         <xs:complexType>
             <xs:sequence>
-                <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:choice minOccurs="0" maxOccurs="1">
                     <xs:element ref="types"/>
                     <xs:element ref="additional"/>
                 </xs:choice>
@@ -102,7 +102,7 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="cache"/>
+                    <xs:element ref="type"/>
                 </xs:choice>
             </xs:sequence>
 
