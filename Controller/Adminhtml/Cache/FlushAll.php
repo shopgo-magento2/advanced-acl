@@ -19,7 +19,7 @@ class FlushAll extends \Magento\Backend\Controller\Adminhtml\Cache\FlushAll
     /**
      * @var \ShopGo\AdvancedAcl\Model\Cache\Config
      */
-    protected $_cacheConfig;
+    protected $_advAclModelCacheConfig;
 
     /**
      * @param Action\Context $context
@@ -28,7 +28,7 @@ class FlushAll extends \Magento\Backend\Controller\Adminhtml\Cache\FlushAll
      * @param \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
      * @param \ShopGo\AdvancedAcl\Model\Source\DisallowedCache $disallowedCache
-     * @param CacheConfig $cacheConfig
+     * @param CacheConfig $advAclModelCacheConfig
      */
     public function __construct(
         Action\Context $context,
@@ -37,7 +37,7 @@ class FlushAll extends \Magento\Backend\Controller\Adminhtml\Cache\FlushAll
         \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
         \ShopGo\AdvancedAcl\Model\Source\DisallowedCache $disallowedCache,
-        CacheConfig $cacheConfig
+        CacheConfig $advAclModelCacheConfig
     ) {
         parent::__construct(
             $context,
@@ -48,7 +48,7 @@ class FlushAll extends \Magento\Backend\Controller\Adminhtml\Cache\FlushAll
         );
 
         $this->_disallowedCache = $disallowedCache;
-        $this->_cacheConfig = $cacheConfig;
+        $this->_advAclModelCacheConfig = $advAclModelCacheConfig;
     }
 
     /**
@@ -67,7 +67,7 @@ class FlushAll extends \Magento\Backend\Controller\Adminhtml\Cache\FlushAll
             );
 
             if (!empty($_cache)) {
-                $access = $this->_cacheConfig->getCachePageElementAccess([
+                $access = $this->_advAclModelCacheConfig->getCachePageElementAccess([
                     'types' => [],
                     'type'  => ['attributes' => ['id' => key($_cache)]]
                 ]);

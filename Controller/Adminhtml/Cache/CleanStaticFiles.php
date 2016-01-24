@@ -15,7 +15,7 @@ class CleanStaticFiles extends \Magento\Backend\Controller\Adminhtml\Cache\Clean
     /**
      * @var \ShopGo\AdvancedAcl\Model\Cache\Config
      */
-    protected $_cacheConfig;
+    protected $_advAclModelCacheConfig;
 
     /**
      * @param Action\Context $context
@@ -23,7 +23,7 @@ class CleanStaticFiles extends \Magento\Backend\Controller\Adminhtml\Cache\Clean
      * @param \Magento\Framework\App\Cache\StateInterface $cacheState
      * @param \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
-     * @param CacheConfig $cacheConfig
+     * @param CacheConfig $advAclModelCacheConfig
      */
     public function __construct(
         Action\Context $context,
@@ -31,7 +31,7 @@ class CleanStaticFiles extends \Magento\Backend\Controller\Adminhtml\Cache\Clean
         \Magento\Framework\App\Cache\StateInterface $cacheState,
         \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
-        CacheConfig $cacheConfig
+        CacheConfig $advAclModelCacheConfig
     ) {
         parent::__construct(
             $context,
@@ -41,7 +41,7 @@ class CleanStaticFiles extends \Magento\Backend\Controller\Adminhtml\Cache\Clean
             $resultPageFactory
         );
 
-        $this->_cacheConfig = $cacheConfig;
+        $this->_advAclModelCacheConfig = $advAclModelCacheConfig;
     }
 
     /**
@@ -51,7 +51,7 @@ class CleanStaticFiles extends \Magento\Backend\Controller\Adminhtml\Cache\Clean
      */
     public function execute()
     {
-        $access = $this->_cacheConfig->getCachePageElementAccess([
+        $access = $this->_advAclModelCacheConfig->getCachePageElementAccess([
             'additional' => [],
             'item'       => ['attributes' => ['id' => 'static_files']]
         ]);

@@ -16,7 +16,7 @@ class CleanMedia extends \Magento\Backend\Controller\Adminhtml\Cache\CleanMedia
     /**
      * @var \ShopGo\AdvancedAcl\Model\Cache\Config
      */
-    protected $_cacheConfig;
+    protected $_advAclModelCacheConfig;
 
     /**
      * @param Action\Context $context
@@ -24,7 +24,7 @@ class CleanMedia extends \Magento\Backend\Controller\Adminhtml\Cache\CleanMedia
      * @param \Magento\Framework\App\Cache\StateInterface $cacheState
      * @param \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
-     * @param CacheConfig $cacheConfig
+     * @param CacheConfig $advAclModelCacheConfig
      */
     public function __construct(
         Action\Context $context,
@@ -32,7 +32,7 @@ class CleanMedia extends \Magento\Backend\Controller\Adminhtml\Cache\CleanMedia
         \Magento\Framework\App\Cache\StateInterface $cacheState,
         \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
-        CacheConfig $cacheConfig
+        CacheConfig $advAclModelCacheConfig
     ) {
         parent::__construct(
             $context,
@@ -42,7 +42,7 @@ class CleanMedia extends \Magento\Backend\Controller\Adminhtml\Cache\CleanMedia
             $resultPageFactory
         );
 
-        $this->_cacheConfig = $cacheConfig;
+        $this->_advAclModelCacheConfig = $advAclModelCacheConfig;
     }
 
     /**
@@ -53,7 +53,7 @@ class CleanMedia extends \Magento\Backend\Controller\Adminhtml\Cache\CleanMedia
     public function execute()
     {
         try {
-            $access = $this->_cacheConfig->getCachePageElementAccess([
+            $access = $this->_advAclModelCacheConfig->getCachePageElementAccess([
                 'additional' => [],
                 'item'       => ['attributes' => ['id' => 'media']]
             ]);

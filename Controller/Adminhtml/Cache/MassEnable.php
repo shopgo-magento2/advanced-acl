@@ -21,7 +21,7 @@ class MassEnable extends \Magento\Backend\Controller\Adminhtml\Cache\MassEnable
     /**
      * @var \ShopGo\AdvancedAcl\Model\Cache\Config
      */
-    protected $_cacheConfig;
+    protected $_advAclModelCacheConfig;
 
     /**
      * @param Action\Context $context
@@ -30,7 +30,7 @@ class MassEnable extends \Magento\Backend\Controller\Adminhtml\Cache\MassEnable
      * @param \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
      * @param \ShopGo\AdvancedAcl\Model\Source\DisallowedCache $disallowedCache
-     * @param CacheConfig $cacheConfig
+     * @param CacheConfig $advAclModelCacheConfig
      */
     public function __construct(
         Action\Context $context,
@@ -39,7 +39,7 @@ class MassEnable extends \Magento\Backend\Controller\Adminhtml\Cache\MassEnable
         \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
         \ShopGo\AdvancedAcl\Model\Source\DisallowedCache $disallowedCache,
-        CacheConfig $cacheConfig
+        CacheConfig $advAclModelCacheConfig
     ) {
         parent::__construct(
             $context,
@@ -51,7 +51,7 @@ class MassEnable extends \Magento\Backend\Controller\Adminhtml\Cache\MassEnable
         );
 
         $this->_disallowedCache = $disallowedCache->toOptionArray();
-        $this->_cacheConfig = $cacheConfig;
+        $this->_advAclModelCacheConfig = $advAclModelCacheConfig;
     }
 
     /**
@@ -72,7 +72,7 @@ class MassEnable extends \Magento\Backend\Controller\Adminhtml\Cache\MassEnable
                 $access = true;
 
                 if (isset($this->_disallowedCache[$code])) {
-                    $access = $this->_cacheConfig->getCachePageElementAccess([
+                    $access = $this->_advAclModelCacheConfig->getCachePageElementAccess([
                         'types' => [],
                         'type'  => ['attributes' => ['id' => key($_cache)]]
                     ]);

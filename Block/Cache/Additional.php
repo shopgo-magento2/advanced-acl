@@ -12,21 +12,21 @@ class Additional extends \Magento\Backend\Block\Cache\Additional
     /**
      * @var \ShopGo\AdvancedAcl\Model\Cache\Config
      */
-    protected $_cacheConfig;
+    protected $_advAclModelCacheConfig;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \ShopGo\AdvancedAcl\Model\Cache\Config $cacheConfig
+     * @param \ShopGo\AdvancedAcl\Model\Cache\Config $advAclModelCacheConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        CacheConfig $cacheConfig,
+        CacheConfig $advAclModelCacheConfig,
         array $data = []
     ) {
         parent::__construct($context, $data);
 
-        $this->_cacheConfig = $cacheConfig;
+        $this->_advAclModelCacheConfig = $advAclModelCacheConfig;
     }
 
     /**
@@ -36,7 +36,7 @@ class Additional extends \Magento\Backend\Block\Cache\Additional
      */
     public function isCleanMediaAllowed()
     {
-        $access = $this->_cacheConfig->getCachePageElementAccess([
+        $access = $this->_advAclModelCacheConfig->getCachePageElementAccess([
             'additional' => [],
             'item'       => ['attributes' => ['id' => 'media']]
         ]);
@@ -51,7 +51,7 @@ class Additional extends \Magento\Backend\Block\Cache\Additional
      */
     public function isCleanStaticFilesAllowed()
     {
-        $access = $this->_cacheConfig->getCachePageElementAccess([
+        $access = $this->_advAclModelCacheConfig->getCachePageElementAccess([
             'additional' => [],
             'item'       => ['attributes' => ['id' => 'static_files']]
         ]);
