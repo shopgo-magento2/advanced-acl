@@ -67,7 +67,7 @@
     </xs:element>
 
     <xs:attributeGroup name="rootAttributeGroup">
-        <xs:attribute name="disabled" type="xs:int" use="optional"/>
+        <xs:attribute name="id" type="xs:string" use="required"/>
     </xs:attributeGroup>
 
     <xs:element name="cache">
@@ -84,7 +84,7 @@
     </xs:element>
 
     <xs:attributeGroup name="containersAttributeGroup">
-        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="disabled" type="xs:int" use="optional"/>
     </xs:attributeGroup>
 
     <xs:attributeGroup name="elementCacheTypeAttributeGroup">
