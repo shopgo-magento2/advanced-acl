@@ -14,6 +14,7 @@
     <preference for="Magento\Backend\Controller\Adminhtml\Cache\MassEnable" type="ShopGo\AdvancedAcl\Controller\Adminhtml\Cache\MassEnable"/>
     <preference for="Magento\Backend\Controller\Adminhtml\Cache\CleanMedia" type="ShopGo\AdvancedAcl\Controller\Adminhtml\Cache\CleanMedia"/>
     <preference for="Magento\Backend\Controller\Adminhtml\Cache\CleanStaticFiles" type="ShopGo\AdvancedAcl\Controller\Adminhtml\Cache\CleanStaticFiles"/>
+    <preference for="Magento\Framework\AuthorizationInterface" type="ShopGo\AdvancedAcl\Model\Authorization"/>
     <preference for="Magento\Backend\Model\Menu\Director\Director" type="ShopGo\AdvancedAcl\Model\Menu\Director\Director"/>
     <type name="ShopGo\AdvancedAcl\Model\Menu\Director\Director" shared="false">
         <arguments>
