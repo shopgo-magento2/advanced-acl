@@ -16,20 +16,12 @@ class Config extends \Magento\Framework\Model\AbstractModel
     protected $_configReader;
 
     /**
-     * @var \ShopGo\AdvancedAcl\Model\Source\DisallowedCache
-     */
-    protected $_disallowedCache;
-
-    /**
      * @param \Magento\Framework\Config\ReaderInterface $configReader
-     * @param \ShopGo\AdvancedAcl\Model\Source\DisallowedCache $disallowedCache
      */
     public function __construct(
-        \Magento\Framework\Config\ReaderInterface $configReader,
-        \ShopGo\AdvancedAcl\Model\Source\DisallowedCache $disallowedCache
+        \Magento\Framework\Config\ReaderInterface $configReader
     ) {
         $this->_configReader = $configReader;
-        $this->_disallowedCache = $disallowedCache->toOptionArray();
     }
 
     /**

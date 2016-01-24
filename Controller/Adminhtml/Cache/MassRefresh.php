@@ -14,11 +14,6 @@ use ShopGo\AdvancedAcl\Model\Cache\Config as CacheConfig;
 class MassRefresh extends \Magento\Backend\Controller\Adminhtml\Cache\MassRefresh
 {
     /**
-     * @var \ShopGo\AdvancedAcl\Model\Source\DisallowedCache
-     */
-    protected $_disallowedCache;
-
-    /**
      * @var \ShopGo\AdvancedAcl\Model\Cache\Config
      */
     protected $_advAclModelCacheConfig;
@@ -29,7 +24,6 @@ class MassRefresh extends \Magento\Backend\Controller\Adminhtml\Cache\MassRefres
      * @param \Magento\Framework\App\Cache\StateInterface $cacheState
      * @param \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
-     * @param \ShopGo\AdvancedAcl\Model\Source\DisallowedCache $disallowedCache
      * @param CacheConfig $advAclModelCacheConfig
      */
     public function __construct(
@@ -38,7 +32,6 @@ class MassRefresh extends \Magento\Backend\Controller\Adminhtml\Cache\MassRefres
         \Magento\Framework\App\Cache\StateInterface $cacheState,
         \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
-        \ShopGo\AdvancedAcl\Model\Source\DisallowedCache $disallowedCache,
         CacheConfig $advAclModelCacheConfig
     ) {
         parent::__construct(
@@ -46,11 +39,9 @@ class MassRefresh extends \Magento\Backend\Controller\Adminhtml\Cache\MassRefres
             $cacheTypeList,
             $cacheState,
             $cacheFrontendPool,
-            $resultPageFactory,
-            $disallowedCache
+            $resultPageFactory
         );
 
-        $this->_disallowedCache = $disallowedCache->toOptionArray();
         $this->_advAclModelCacheConfig = $advAclModelCacheConfig;
     }
 
@@ -69,14 +60,10 @@ class MassRefresh extends \Magento\Backend\Controller\Adminhtml\Cache\MassRefres
             }
             $this->_validateTypes($types);
             foreach ($types as $type) {
-                $access = true;
-
-                if (isset($this->_disallowedCache[$type])) {
-                    $access = $this->_advAclModelCacheConfig->getCachePageElementAccess([
-                        'types' => [],
-                        'type'  => ['attributes' => ['id' => key($_cache)]]
-                    ]);
-                }
+                $access = $this->_cacheConfig->getCachePageElementAccess([
+                    'types' => [],
+                    'type'  => ['attributes' => ['id' => $type]]
+                ]);
 
                 if ($access) {
                     $this->_cacheTypeList->cleanType($type);

@@ -2,7 +2,7 @@
 /**
  * Cache grid collection
  *
- * Copyright © 2015 Magento. All rights reserved.
+ * Copyright © 2015 ShopGo. All rights reserved.
  * See COPYING.txt for license details.
  */
 namespace ShopGo\AdvancedAcl\Model\Cache\ResourceModel\Grid;
@@ -10,22 +10,13 @@ namespace ShopGo\AdvancedAcl\Model\Cache\ResourceModel\Grid;
 class Collection extends \Magento\Backend\Model\Cache\ResourceModel\Grid\Collection
 {
     /**
-     * @var \ShopGo\AdvancedAcl\Model\Source\DisallowedCache
-     */
-    protected $_disallowedCache;
-
-    /**
      * @param \Magento\Framework\Data\Collection\EntityFactory $entityFactory
      * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
-     * @param \ShopGo\AdvancedAcl\Model\Source\DisallowedCache $disallowedCache
      */
     public function __construct(
         \Magento\Framework\Data\Collection\EntityFactory $entityFactory,
-        \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
-        \ShopGo\AdvancedAcl\Model\Source\DisallowedCache $disallowedCache
+        \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
     ) {
-        $this->_disallowedCache = $disallowedCache->toOptionArray();
-
         parent::__construct($entityFactory, $cacheTypeList);
     }
 
@@ -41,11 +32,14 @@ class Collection extends \Magento\Backend\Model\Cache\ResourceModel\Grid\Collect
     {
         if (!$this->isLoaded()) {
             foreach ($this->_cacheTypeList->getTypes() as $type) {
-                if (isset($this->_disallowedCache[$type->getId()])) {
-                    continue;
-                }
+                $access = $this->_advAclModelCacheConfig->getCachePageElementAccess([
+                    'types' => [],
+                    'type'  => ['attributes' => ['id' => $type->getId()]]
+                ]);
 
-                $this->addItem($type);
+                if ($access) {
+                    $this->addItem($type);
+                }
             }
             $this->_setIsLoaded(true);
         }

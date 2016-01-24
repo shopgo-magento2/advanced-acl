@@ -87,7 +87,13 @@
         <xs:attribute name="id" type="xs:string" use="required"/>
     </xs:attributeGroup>
 
-    <xs:attributeGroup name="elementsAttributeGroup">
+    <xs:attributeGroup name="elementCacheTypeAttributeGroup">
+        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="cache_dir" type="xs:string" use="required"/>
+        <xs:attribute name="disabled" type="xs:int" use="optional"/>
+    </xs:attributeGroup>
+
+    <xs:attributeGroup name="elementAdditionalItemAttributeGroup">
         <xs:attribute name="id" type="xs:string" use="required"/>
         <xs:attribute name="disabled" type="xs:int" use="optional"/>
     </xs:attributeGroup>
@@ -112,7 +118,7 @@
         </xs:annotation>
 
         <xs:complexType>
-            <xs:attributeGroup ref="elementsAttributeGroup"/>
+            <xs:attributeGroup ref="elementCacheTypeAttributeGroup"/>
         </xs:complexType>
     </xs:element>
 
@@ -136,7 +142,7 @@
         </xs:annotation>
 
         <xs:complexType>
-            <xs:attributeGroup ref="elementsAttributeGroup"/>
+            <xs:attributeGroup ref="elementAdditionalItemAttributeGroup"/>
         </xs:complexType>
     </xs:element>
 </xs:schema>

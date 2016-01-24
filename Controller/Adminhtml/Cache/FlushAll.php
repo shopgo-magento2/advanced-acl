@@ -12,11 +12,6 @@ use ShopGo\AdvancedAcl\Model\Cache\Config as CacheConfig;
 class FlushAll extends \Magento\Backend\Controller\Adminhtml\Cache\FlushAll
 {
     /**
-     * @var \ShopGo\AdvancedAcl\Model\Source\DisallowedCache
-     */
-    protected $_disallowedCache;
-
-    /**
      * @var \ShopGo\AdvancedAcl\Model\Cache\Config
      */
     protected $_advAclModelCacheConfig;
@@ -27,7 +22,6 @@ class FlushAll extends \Magento\Backend\Controller\Adminhtml\Cache\FlushAll
      * @param \Magento\Framework\App\Cache\StateInterface $cacheState
      * @param \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
-     * @param \ShopGo\AdvancedAcl\Model\Source\DisallowedCache $disallowedCache
      * @param CacheConfig $advAclModelCacheConfig
      */
     public function __construct(
@@ -36,7 +30,6 @@ class FlushAll extends \Magento\Backend\Controller\Adminhtml\Cache\FlushAll
         \Magento\Framework\App\Cache\StateInterface $cacheState,
         \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
-        \ShopGo\AdvancedAcl\Model\Source\DisallowedCache $disallowedCache,
         CacheConfig $advAclModelCacheConfig
     ) {
         parent::__construct(
@@ -47,7 +40,6 @@ class FlushAll extends \Magento\Backend\Controller\Adminhtml\Cache\FlushAll
             $resultPageFactory
         );
 
-        $this->_disallowedCache = $disallowedCache;
         $this->_advAclModelCacheConfig = $advAclModelCacheConfig;
     }
 
@@ -61,17 +53,17 @@ class FlushAll extends \Magento\Backend\Controller\Adminhtml\Cache\FlushAll
         $this->_eventManager->dispatch('adminhtml_cache_flush_all');
         /** @var $cacheFrontend \Magento\Framework\Cache\FrontendInterface */
         foreach ($this->_cacheFrontendPool as $cacheFrontend) {
-            $access = true;
-            $_cache = $this->_disallowedCache->getCacheByDir(
-                $cacheFrontend->getBackend()->getOption('cache_dir')
-            );
+            $cacheDir = trim($cacheFrontend->getBackend()->getOption('cache_dir'), '/');
+            $cacheDir = explode('/', $cacheDir);
 
-            if (!empty($_cache)) {
-                $access = $this->_advAclModelCacheConfig->getCachePageElementAccess([
-                    'types' => [],
-                    'type'  => ['attributes' => ['id' => key($_cache)]]
-                ]);
-            }
+            $access = $this->_cacheConfig->getCachePageElementAccess([
+                'types' => [],
+                'type'  => [
+                    'attributes' => [
+                        'cache_dir' => $cacheDir[count($cacheDir) - 1]
+                    ]
+                ]
+            ]);
 
             if ($access) {
                 $cacheFrontend->getBackend()->clean();
