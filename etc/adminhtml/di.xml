@@ -7,6 +7,13 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Magento\Config\Block\System\Config\Form" type="ShopGo\AdvancedAcl\Block\System\Config\Form"/>
+    <preference for="Magento\Backend\Model\Cache\ResourceModel\Grid\Collection" type="ShopGo\AdvancedAcl\Model\Cache\ResourceModel\Grid\Collection"/>
+    <preference for="Magento\Backend\Controller\Adminhtml\Cache\FlushSystem" type="ShopGo\AdvancedAcl\Controller\Adminhtml\Cache\FlushSystem"/>
+    <preference for="Magento\Backend\Controller\Adminhtml\Cache\FlushAll" type="ShopGo\AdvancedAcl\Controller\Adminhtml\Cache\FlushAll"/>
+    <preference for="Magento\Backend\Controller\Adminhtml\Cache\MassRefresh" type="ShopGo\AdvancedAcl\Controller\Adminhtml\Cache\MassRefresh"/>
+    <preference for="Magento\Backend\Controller\Adminhtml\Cache\MassEnable" type="ShopGo\AdvancedAcl\Controller\Adminhtml\Cache\MassEnable"/>
+    <preference for="Magento\Backend\Controller\Adminhtml\Cache\CleanMedia" type="ShopGo\AdvancedAcl\Controller\Adminhtml\Cache\CleanMedia"/>
+    <preference for="Magento\Backend\Controller\Adminhtml\Cache\CleanStaticFiles" type="ShopGo\AdvancedAcl\Controller\Adminhtml\Cache\CleanStaticFiles"/>
     <type name="Magento\Config\Model\Config\Structure\Element\Tab">
         <plugin name="element_tab" type="ShopGo\AdvancedAcl\Model\Plugin\Config\Structure\Element\Tab" sortOrder="1" disabled="false"/>
     </type>
@@ -22,6 +29,17 @@
     <type name="ShopGo\AdvancedAcl\Model\System\Config">
         <arguments>
             <argument name="configReader" xsi:type="object">ShopGo\AdvancedAcl\Model\System\Config\Reader</argument>
+        </arguments>
+    </type>
+    <virtualType name="ShopGo\AdvancedAcl\Model\Cache\Config\Reader" type="ShopGo\AdvancedAcl\Model\Config\Reader">
+        <arguments>
+            <argument name="schemaLocator" xsi:type="object">ShopGo\AdvancedAcl\Model\Cache\Config\SchemaLocator</argument>
+            <argument name="fileName" xsi:type="string">cache.xml</argument>
+        </arguments>
+    </virtualType>
+    <type name="ShopGo\AdvancedAcl\Model\Cache\Config">
+        <arguments>
+            <argument name="configReader" xsi:type="object">ShopGo\AdvancedAcl\Model\Cache\Config\Reader</argument>
         </arguments>
     </type>
 </config>
