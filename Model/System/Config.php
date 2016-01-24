@@ -32,39 +32,10 @@ class Config extends \Magento\Framework\Model\AbstractModel
      */
     public function getSystemConfigAccess($elements)
     {
-        $access = true;
-
-        if (!$this->_configReader->aclFileExists()
-            || !$this->_configReader->validateAclDom()) {
-            return $access;
-        }
-
-        $adminUserAcl = $this->_configReader->getAdminUserAcl();
-
-        if (!$adminUserAcl) {
-            return $access;
-        }
-
-        $elements = array_merge(
-            [
-                'system' => [
-                    'attributes' => [
-                        'id' => $adminUserAcl->getAttribute('system')
-                    ]
-                ]
-            ],
-            $elements
+        $access = $this->_configReader->getConfigElement(
+            $element, 'system', 'getAttribute', 'disabled'
         );
 
-        $element = $this->_configReader->getAclDomXpathValue(
-            $this->_configReader->getConfigXpath($elements)
-        );
-
-        if ($element->item(0) !== null
-            && $element->item(0)->getAttribute('disabled') !== '') {
-            $access = !$element->item(0)->getAttribute('disabled');
-        }
-
-        return $access;
+        return $access !== null ? !$access : true;
     }
 }

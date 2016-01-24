@@ -85,7 +85,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
 
         $this->_setVarDirectory();
 
-        if ($this->aclFileExists()) {
+        if ($this->_aclFileExists()) {
             $this->_setAclDom();
             $this->_setAclDomXpath();
         }
@@ -145,9 +145,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         $this->_aclDom = new $this->_domDocumentClass(
             $this->_getAclFileXmlContent(),
             $this->validationState,
-            [],
-            null,
-            null
+            [], null, null
         );
     }
 
@@ -164,7 +162,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @return boolean
      */
-    public function aclFileExists()
+    protected function _aclFileExists()
     {
         return $this->_varDirectory->isFile(
             self::ACL_CONFIG_DIRECTORY_PATH . $this->_fileName
@@ -176,7 +174,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @return boolean
      */
-    public function validateAclDom()
+    protected function _validateAclDom()
     {
         $result = true;
         $errors = [];
@@ -194,7 +192,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      * @param string $xpath
      * @return string
      */
-    public function getAclDomXpathValue($xpath)
+    protected function _getAclDomXpathValue($xpath)
     {
         return $this->_aclDomXpath->query($xpath);
     }
@@ -204,16 +202,16 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @return string|boolean
      */
-    public function getAdminUserAcl()
+    protected function _getAdminUserAcl()
     {
         $user = $this->_authSession->getUser()->getUsername();
 
-        $element = $this->getAclDomXpathValue(
+        $element = $this->_getAclDomXpathValue(
             '//users/user[@name="*"]'
         );
 
         if ($element->item(0) !== null) {
-            $excludedUsers = $this->getAclDomXpathValue(
+            $excludedUsers = $this->_getAclDomXpathValue(
                 '//users/user[@name="*"]/exclude'
             );
 
@@ -229,7 +227,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
                 }
             }
         } else {
-            $element = $this->getAclDomXpathValue(
+            $element = $this->_getAclDomXpathValue(
                 '//users/user[@name="' . $user . '"]'
             );
         }
@@ -245,7 +243,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      * @param array $element
      * @return string
      */
-    public function getConfigXpath($element)
+    protected function _getConfigXpath($element)
     {
         $xpath = '/';
 
@@ -268,5 +266,47 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         }
 
         return $xpath;
+    }
+
+    /**
+     * Get config element
+     *
+     * @param array $element
+     * @param string $root
+     * @param string $accessor
+     * @param string $argument
+     * @return string|null
+     */
+    public function getConfigElement($element, $root, $accessor, $argument)
+    {
+        if (!$this->_aclFileExists() || !$this->_validateAclDom()) {
+            return null;
+        }
+
+        $adminUserAcl = $this->_getAdminUserAcl();
+
+        if (!$adminUserAcl) {
+            return null;
+        }
+
+        $root = [
+            $root => [
+                'attributes' => [
+                    'id' => $adminUserAcl->getAttribute($root)
+                ]
+            ]
+        ];
+
+        $element = array_merge($root, $element);
+        $element = $this->_getAclDomXpathValue($this->_getConfigXpath($element));
+
+        if ($element->item(0) !== null
+            && $element->item(0)->{$accessor}($argument) !== '') {
+            $element = $element->item(0)->{$accessor}($argument);
+        } else {
+            $element = null;
+        }
+
+        return $element;
     }
 }
