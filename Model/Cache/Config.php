@@ -11,31 +11,6 @@ namespace ShopGo\AdvancedAcl\Model\Cache;
 class Config extends \Magento\Framework\Model\AbstractModel
 {
     /**
-     * Cache disallowed types node
-     */
-    const CACHE_DISALLOWED_TYPES = 'disallowed_types';
-
-    /**
-     * Cache type node
-     */
-    const CACHE_TYPE_NODE = 'type';
-
-    /**
-     * Cache additional node
-     */
-    const CACHE_ADDITIONAL = 'additional';
-
-    /**
-     * Cache additional media node
-     */
-    const CACHE_ADDITIONAL_MEDIA = 'media';
-
-    /**
-     * Cache additional static files node
-     */
-    const CACHE_ADDITIONAL_STATIC = 'static_files';
-
-    /**
      * @var \Magento\Framework\Config\ReaderInterface
      */
     protected $_configReader;
@@ -58,67 +33,6 @@ class Config extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Get element node value
-     *
-     * @param array $element
-     * @return string
-     */
-    protected function _getElementNodeValue($element)
-    {
-        $value   = '';
-        $element = $this->_configReader->getAclDomXpathValue(
-            $this->_configReader->getConfigXpath($element)
-        );
-
-        if ($element->item(0) !== null
-            && $element->item(0)->nodeValue !== '') {
-            $value = $element->item(0)->nodeValue;
-        }
-
-        return $value;
-    }
-
-    /**
-     * Get disallowed cache types config
-     *
-     * @param array $element
-     * @return string
-     */
-    protected function _getDisallowedCacheTypesConfig($element)
-    {
-        $elementValue = $this->_getElementNodeValue($element);
-
-        return !isset($this->_disallowedCache[$elementValue]);
-    }
-
-    /**
-     * Get cache config
-     *
-     * @param string $type
-     * @param array $element
-     * @return mixed
-     */
-    protected function _getCacheConfig($type, $element)
-    {
-        $config = null;
-
-        switch ($type) {
-            case self::CACHE_DISALLOWED_TYPES:
-                $config = $this->_getDisallowedCacheTypesConfig($element);
-                break;
-            case self::CACHE_ADDITIONAL:
-                $config = $this->_getElementNodeValue($element);
-                break;
-            default:
-                $config = $this->_configReader->getAclDomXpathValue(
-                    $this->_configReader->getConfigXpath($element)
-                );
-        }
-
-        return $config;
-    }
-
-    /**
      * Get cache page element access permission
      *
      * @param array $element
@@ -126,34 +40,21 @@ class Config extends \Magento\Framework\Model\AbstractModel
      */
     public function getCachePageElementAccess($element)
     {
-        $access = true;
+        $rootValue = reset($element);
+        $root      = [key($element) => $rootValue];
 
-        if (!$this->_configReader->aclFileExists()
-            || !$this->_configReader->validateAclDom()) {
-            return $access;
-        }
-
-        $adminUserAcl = $this->_configReader->getAdminUserAcl();
-
-        if (!$adminUserAcl) {
-            return $access;
-        }
-
-        $type = key($element);
-
-        $element = array_merge(
-            [
-                'cache' => [
-                    'attributes' => [
-                        'id' => $adminUserAcl->getAttribute('cache')
-                    ]
-                ]
-            ],
-            $element
+        $rootAccess = $this->_configReader->getConfigElement(
+            $root, 'cache', 'getAttribute', 'disabled'
         );
 
-        $access = $this->_getCacheConfig($type, $element);
+        if ($rootAccess == 1) {
+            return !$rootAccess;
+        }
 
-        return $access !== null ? $access : true;
+        $access = $this->_configReader->getConfigElement(
+            $element, 'cache', 'getAttribute', 'disabled'
+        );
+
+        return $access !== null ? !$access : true;
     }
 }

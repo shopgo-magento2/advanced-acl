@@ -54,8 +54,8 @@ class CleanMedia extends \Magento\Backend\Controller\Adminhtml\Cache\CleanMedia
     {
         try {
             $access = $this->_cacheConfig->getCachePageElementAccess([
-                CacheConfig::CACHE_ADDITIONAL => [],
-                CacheConfig::CACHE_ADDITIONAL_MEDIA => []
+                'additional' => [],
+                'item'       => ['attributes' => ['id' => 'media']]
             ]);
 
             if ($access) {

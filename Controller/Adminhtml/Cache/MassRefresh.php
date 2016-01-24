@@ -73,8 +73,8 @@ class MassRefresh extends \Magento\Backend\Controller\Adminhtml\Cache\MassRefres
 
                 if (isset($this->_disallowedCache[$type])) {
                     $access = $this->_cacheConfig->getCachePageElementAccess([
-                        CacheConfig::DISALLOWED_CACHE_TYPES => [],
-                        CacheConfig::CACHE_TYPE_NODE => ['value' => key($_cache)]
+                        'types' => [],
+                        'type'  => ['attributes' => ['id' => key($_cache)]]
                     ]);
                 }
 

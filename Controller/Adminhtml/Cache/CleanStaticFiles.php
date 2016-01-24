@@ -52,8 +52,8 @@ class CleanStaticFiles extends \Magento\Backend\Controller\Adminhtml\Cache\Clean
     public function execute()
     {
         $access = $this->_cacheConfig->getCachePageElementAccess([
-            CacheConfig::CACHE_ADDITIONAL => [],
-            CacheConfig::CACHE_ADDITIONAL_STATIC => []
+            'additional' => [],
+            'item'       => ['attributes' => ['id' => 'static_files']]
         ]);
 
         if ($access) {

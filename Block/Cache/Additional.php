@@ -37,8 +37,8 @@ class Additional extends \Magento\Backend\Block\Cache\Additional
     public function isCleanMediaAllowed()
     {
         $access = $this->_cacheConfig->getCachePageElementAccess([
-            CacheConfig::CACHE_ADDITIONAL => [],
-            CacheConfig::CACHE_ADDITIONAL_MEDIA => []
+            'additional' => [],
+            'item'       => ['attributes' => ['id' => 'media']]
         ]);
 
         return $access;
@@ -52,8 +52,8 @@ class Additional extends \Magento\Backend\Block\Cache\Additional
     public function isCleanStaticFilesAllowed()
     {
         $access = $this->_cacheConfig->getCachePageElementAccess([
-            CacheConfig::CACHE_ADDITIONAL => [],
-            CacheConfig::CACHE_ADDITIONAL_STATIC => []
+            'additional' => [],
+            'item'       => ['attributes' => ['id' => 'static_files']]
         ]);
 
         return $access;

@@ -66,30 +66,41 @@
         </xs:annotation>
     </xs:element>
 
-    <xs:attributeGroup name="containersAttributeGroup">
-        <xs:attribute name="id" type="typeId" use="required"/>
+    <xs:attributeGroup name="rootAttributeGroup">
+        <xs:attribute name="disabled" type="xs:int" use="optional"/>
     </xs:attributeGroup>
 
     <xs:element name="cache">
         <xs:complexType>
             <xs:sequence>
                 <xs:choice minOccurs="1" maxOccurs="unbounded">
-                    <xs:element ref="disallowed_types"/>
+                    <xs:element ref="types"/>
                     <xs:element ref="additional"/>
                 </xs:choice>
             </xs:sequence>
 
-            <xs:attributeGroup ref="containersAttributeGroup"/>
+            <xs:attributeGroup ref="rootAttributeGroup"/>
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="disallowed_types">
+    <xs:attributeGroup name="containersAttributeGroup">
+        <xs:attribute name="id" type="xs:string" use="required"/>
+    </xs:attributeGroup>
+
+    <xs:attributeGroup name="elementsAttributeGroup">
+        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="disabled" type="xs:int" use="optional"/>
+    </xs:attributeGroup>
+
+    <xs:element name="types">
         <xs:complexType>
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="cache"/>
                 </xs:choice>
             </xs:sequence>
+
+            <xs:attributeGroup ref="containersAttributeGroup"/>
         </xs:complexType>
     </xs:element>
 
@@ -99,45 +110,33 @@
                 Cache Type Resource. Recursive complex type
             </xs:documentation>
         </xs:annotation>
+
+        <xs:complexType>
+            <xs:attributeGroup ref="elementsAttributeGroup"/>
+        </xs:complexType>
     </xs:element>
 
     <xs:element name="additional">
         <xs:complexType>
             <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="1">
-                    <xs:element ref="media"/>
-                    <xs:element ref="static_files"/>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="item"/>
                 </xs:choice>
             </xs:sequence>
+
+            <xs:attributeGroup ref="containersAttributeGroup"/>
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="media">
+    <xs:element name="item">
         <xs:annotation>
             <xs:documentation>
-                Media Resource. Recursive complex type
+                Additional Cache Item Resource. Recursive complex type
             </xs:documentation>
         </xs:annotation>
+
+        <xs:complexType>
+            <xs:attributeGroup ref="elementsAttributeGroup"/>
+        </xs:complexType>
     </xs:element>
-
-    <xs:element name="static_files">
-        <xs:annotation>
-            <xs:documentation>
-                Static Files Resource. Recursive complex type
-            </xs:documentation>
-        </xs:annotation>
-    </xs:element>
-
-    <xs:simpleType name="typeId">
-        <xs:annotation>
-            <xs:documentation>
-                Item id attribute for elements section, group, field can has only [a-zA-Z0-9/_]. Minimal length 2 symbol. Case sensitive.
-            </xs:documentation>
-        </xs:annotation>
-
-        <xs:restriction base="xs:string">
-            <xs:pattern value="[a-zA-Z0-9_]{1,}"/>
-            <xs:minLength value="2"/>
-        </xs:restriction>
-    </xs:simpleType>
 </xs:schema>

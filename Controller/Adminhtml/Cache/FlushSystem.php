@@ -67,8 +67,8 @@ class FlushSystem extends \Magento\Backend\Controller\Adminhtml\Cache\FlushSyste
 
             if (!empty($_cache)) {
                 $access = $this->_cacheConfig->getCachePageElementAccess([
-                    CacheConfig::CACHE_DISALLOWED_TYPES => [],
-                    CacheConfig::CACHE_TYPE_NODE => ['value' => key($_cache)]
+                    'types' => [],
+                    'type'  => ['attributes' => ['id' => key($_cache)]]
                 ]);
             }
 

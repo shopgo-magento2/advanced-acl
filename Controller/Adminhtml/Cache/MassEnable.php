@@ -73,8 +73,8 @@ class MassEnable extends \Magento\Backend\Controller\Adminhtml\Cache\MassEnable
 
                 if (isset($this->_disallowedCache[$code])) {
                     $access = $this->_cacheConfig->getCachePageElementAccess([
-                        CacheConfig::DISALLOWED_CACHE_TYPES => [],
-                        CacheConfig::CACHE_TYPE_NODE => ['value' => key($_cache)]
+                        'types' => [],
+                        'type'  => ['attributes' => ['id' => key($_cache)]]
                     ]);
                 }
 

@@ -68,8 +68,8 @@ class FlushAll extends \Magento\Backend\Controller\Adminhtml\Cache\FlushAll
 
             if (!empty($_cache)) {
                 $access = $this->_cacheConfig->getCachePageElementAccess([
-                    CacheConfig::CACHE_DISALLOWED_TYPES => [],
-                    CacheConfig::CACHE_TYPE_NODE => ['value' => key($_cache)]
+                    'types' => [],
+                    'type'  => ['attributes' => ['id' => key($_cache)]]
                 ]);
             }
 
