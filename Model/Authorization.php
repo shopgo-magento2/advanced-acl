@@ -26,21 +26,21 @@ class Authorization implements \Magento\Framework\AuthorizationInterface
      *
      * @var \ShopGo\AdvancedAcl\Model\Authorization\Resource\Config
      */
-    protected $_advAclModelAuthorizationResourceConfig;
+    protected $_advAclModelAuthResourceConfig;
 
     /**
      * @param \Magento\Framework\Authorization\PolicyInterface $aclPolicy
      * @param \Magento\Framework\Authorization\RoleLocatorInterface $roleLocator
-     * @param \ShopGo\AdvancedAcl\Model\Authorization\Resource\Config $advAclModelAuthorizationResourceConfig
+     * @param \ShopGo\AdvancedAcl\Model\Authorization\Resource\Config $advAclModelAuthResourceConfig
      */
     public function __construct(
         \Magento\Framework\Authorization\PolicyInterface $aclPolicy,
         \Magento\Framework\Authorization\RoleLocatorInterface $roleLocator,
-        \ShopGo\AdvancedAcl\Model\Authorization\Resource\Config $advAclModelAuthorizationResourceConfig
+        \ShopGo\AdvancedAcl\Model\Authorization\Resource\Config $advAclModelAuthResourceConfig
     ) {
         $this->_aclPolicy = $aclPolicy;
         $this->_aclRoleLocator = $roleLocator;
-        $this->_advAclModelAuthorizationResourceConfig = $advAclModelAuthorizationResourceConfig;
+        $this->_advAclModelAuthResourceConfig = $advAclModelAuthResourceConfig;
     }
 
     /**
@@ -52,7 +52,7 @@ class Authorization implements \Magento\Framework\AuthorizationInterface
      */
     public function isAllowed($resource, $privilege = null)
     {
-        $advAclAccess = $this->_advAclModelAuthorizationResourceConfig->getAuthorizationResourceAccess([
+        $advAclAccess = $this->_advAclModelAuthResourceConfig->getAuthResourceAccess([
             'resource' => ['attributes' => ['id' => $resource]]
         ]);
 

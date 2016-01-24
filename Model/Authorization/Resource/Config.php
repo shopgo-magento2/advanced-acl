@@ -38,7 +38,7 @@ class Config extends \Magento\Framework\Model\AbstractModel
      * @param array $element
      * @return int|boolean
      */
-    public function getAuthorizationResourceAccess($element)
+    public function getAuthResourceAccess($element)
     {
         $menuElement = [
             'item' => [
