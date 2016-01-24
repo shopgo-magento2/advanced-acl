@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © 2015 ShopGo. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="config">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="users"/>
+                <xs:element ref="cache"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:attributeGroup name="usersAttributeGroup">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="menu" type="xs:string" use="required"/>
+    </xs:attributeGroup>
+
+    <xs:element name="users">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="1" maxOccurs="unbounded">
+                    <xs:element ref="user"/>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+
+        <xs:unique name="uniqueUserName">
+            <xs:annotation>
+                <xs:documentation>
+                    Attribute name is unique under all users
+                </xs:documentation>
+            </xs:annotation>
+            <xs:selector xpath="user"/>
+            <xs:field xpath="@name"/>
+        </xs:unique>
+    </xs:element>
+
+    <xs:element name="user">
+        <xs:annotation>
+            <xs:documentation>
+                User Resource. Recursive complex type
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="exclude"/>
+                </xs:choice>
+            </xs:sequence>
+
+            <xs:attributeGroup ref="usersAttributeGroup"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="exclude">
+        <xs:annotation>
+            <xs:documentation>
+                User Resource. Recursive complex type
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:attributeGroup name="containersAttributeGroup">
+        <xs:attribute name="id" type="xs:string" use="required"/>
+    </xs:attributeGroup>
+
+    <xs:element name="menu">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="item"/>
+                </xs:choice>
+            </xs:sequence>
+
+            <xs:attributeGroup ref="containersAttributeGroup"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:attributeGroup name="elementsAttributeGroup">
+        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="resource" type="xs:string" use="required"/>
+        <xs:attribute name="disabled" type="xs:int" use="optional"/>
+    </xs:attributeGroup>
+
+    <xs:element name="item">
+        <xs:annotation>
+            <xs:documentation>
+                Menu Item Resource. Recursive complex type
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:attributeGroup ref="elementsAttributeGroup"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
