@@ -25,7 +25,7 @@
         <plugin name="element_tab" type="ShopGo\AdvancedAcl\Model\Plugin\Config\Structure\Element\Tab" sortOrder="1" disabled="false"/>
     </type>
     <type name="Magento\Config\Model\Config\Structure\Element\Section">
-        <plugin name="element_tab" type="ShopGo\AdvancedAcl\Model\Plugin\Config\Structure\Element\Section" sortOrder="1" disabled="false"/>
+        <plugin name="element_section" type="ShopGo\AdvancedAcl\Model\Plugin\Config\Structure\Element\Section" sortOrder="1" disabled="false"/>
     </type>
     <virtualType name="ShopGo\AdvancedAcl\Model\System\Config\Reader" type="ShopGo\AdvancedAcl\Model\Config\Reader">
         <arguments>
