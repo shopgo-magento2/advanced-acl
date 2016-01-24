@@ -29,7 +29,7 @@ class Config extends \Magento\Framework\Model\AbstractModel
      *
      * @param array $element
      * @param boolean $raw
-     * @return int|boolean
+     * @return int|boolean|null
      */
     public function getMenuItemAccess($element, $raw = false)
     {
