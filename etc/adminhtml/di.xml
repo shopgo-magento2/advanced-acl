@@ -42,4 +42,15 @@
             <argument name="configReader" xsi:type="object">ShopGo\AdvancedAcl\Model\Cache\Config\Reader</argument>
         </arguments>
     </type>
+    <virtualType name="ShopGo\AdvancedAcl\Model\Menu\Config\Reader" type="ShopGo\AdvancedAcl\Model\Config\Reader">
+        <arguments>
+            <argument name="schemaLocator" xsi:type="object">ShopGo\AdvancedAcl\Model\Menu\Config\SchemaLocator</argument>
+            <argument name="fileName" xsi:type="string">menu.xml</argument>
+        </arguments>
+    </virtualType>
+    <type name="ShopGo\AdvancedAcl\Model\Menu\Config">
+        <arguments>
+            <argument name="configReader" xsi:type="object">ShopGo\AdvancedAcl\Model\Menu\Config\Reader</argument>
+        </arguments>
+    </type>
 </config>
