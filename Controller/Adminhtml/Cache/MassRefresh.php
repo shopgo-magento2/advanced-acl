@@ -60,7 +60,7 @@ class MassRefresh extends \Magento\Backend\Controller\Adminhtml\Cache\MassRefres
             }
             $this->_validateTypes($types);
             foreach ($types as $type) {
-                $access = $this->_cacheConfig->getCachePageElementAccess([
+                $access = $this->_advAclModelCacheConfig->getCachePageElementAccess([
                     'types' => [],
                     'type'  => ['attributes' => ['id' => $type]]
                 ]);

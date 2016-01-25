@@ -55,7 +55,7 @@ class FlushSystem extends \Magento\Backend\Controller\Adminhtml\Cache\FlushSyste
             $cacheDir = trim($cacheFrontend->getBackend()->getOption('cache_dir'), '/');
             $cacheDir = explode('/', $cacheDir);
 
-            $access = $this->_cacheConfig->getCachePageElementAccess([
+            $access = $this->_advAclModelCacheConfig->getCachePageElementAccess([
                 'types' => [],
                 'type'  => [
                     'attributes' => [

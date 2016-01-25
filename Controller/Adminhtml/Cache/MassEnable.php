@@ -60,7 +60,7 @@ class MassEnable extends \Magento\Backend\Controller\Adminhtml\Cache\MassEnable
             }
             $this->_validateTypes($types);
             foreach ($types as $code) {
-                $access = $this->_cacheConfig->getCachePageElementAccess([
+                $access = $this->_advAclModelCacheConfig->getCachePageElementAccess([
                     'types' => [],
                     'type'  => ['attributes' => ['id' => $code]]
                 ]);

@@ -10,13 +10,22 @@ namespace ShopGo\AdvancedAcl\Model\Cache\ResourceModel\Grid;
 class Collection extends \Magento\Backend\Model\Cache\ResourceModel\Grid\Collection
 {
     /**
+     * @var \ShopGo\AdvancedAcl\Model\Cache\Config
+     */
+    protected $_advAclModelCacheConfig;
+
+    /**
      * @param \Magento\Framework\Data\Collection\EntityFactory $entityFactory
      * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
+     * @param \ShopGo\AdvancedAcl\Model\Cache\Config $advAclModelCacheConfig
      */
     public function __construct(
         \Magento\Framework\Data\Collection\EntityFactory $entityFactory,
-        \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
+        \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
+        \ShopGo\AdvancedAcl\Model\Cache\Config $advAclModelCacheConfig
     ) {
+        $this->_advAclModelCacheConfig = $advAclModelCacheConfig;
+
         parent::__construct($entityFactory, $cacheTypeList);
     }
 

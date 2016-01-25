@@ -6,6 +6,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Backend\Block\Cache\Additional" type="ShopGo\AdvancedAcl\Block\Cache\Additional"/>
     <preference for="Magento\Config\Block\System\Config\Form" type="ShopGo\AdvancedAcl\Block\System\Config\Form"/>
     <preference for="Magento\Backend\Model\Cache\ResourceModel\Grid\Collection" type="ShopGo\AdvancedAcl\Model\Cache\ResourceModel\Grid\Collection"/>
     <preference for="Magento\Backend\Controller\Adminhtml\Cache\FlushSystem" type="ShopGo\AdvancedAcl\Controller\Adminhtml\Cache\FlushSystem"/>

@@ -16,7 +16,7 @@ class Config extends \Magento\Framework\Model\AbstractModel
     protected $_configReader;
 
     /**
-     * @param \Magento\Framework\Config\ReaderInterface $config
+     * @param \Magento\Framework\Config\ReaderInterface $configReader
      */
     public function __construct(
         \Magento\Framework\Config\ReaderInterface $configReader
@@ -27,10 +27,10 @@ class Config extends \Magento\Framework\Model\AbstractModel
     /**
      * Get system config access permission
      *
-     * @param array $elements
+     * @param array $element
      * @return int|boolean
      */
-    public function getSystemConfigAccess($elements)
+    public function getSystemConfigAccess($element)
     {
         $access = $this->_configReader->getConfigElement(
             $element, 'system', 'getAttribute', 'disabled'
