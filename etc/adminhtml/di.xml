@@ -28,6 +28,11 @@
     <type name="Magento\Config\Model\Config\Structure\Element\Section">
         <plugin name="element_section" type="ShopGo\AdvancedAcl\Model\Plugin\Config\Structure\Element\Section" sortOrder="1" disabled="false"/>
     </type>
+    <virtualType name="ShopGo\AdvancedAcl\Model\System\Config\SchemaLocator" type="ShopGo\AdvancedAcl\Model\Config\SchemaLocator">
+        <arguments>
+            <argument name="fileName" xsi:type="string">system_config.xsd</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="ShopGo\AdvancedAcl\Model\System\Config\Reader" type="ShopGo\AdvancedAcl\Model\Config\Reader">
         <arguments>
             <argument name="schemaLocator" xsi:type="object">ShopGo\AdvancedAcl\Model\System\Config\SchemaLocator</argument>
@@ -39,6 +44,11 @@
             <argument name="configReader" xsi:type="object">ShopGo\AdvancedAcl\Model\System\Config\Reader</argument>
         </arguments>
     </type>
+    <virtualType name="ShopGo\AdvancedAcl\Model\Cache\Config\SchemaLocator" type="ShopGo\AdvancedAcl\Model\Config\SchemaLocator">
+        <arguments>
+            <argument name="fileName" xsi:type="string">cache.xsd</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="ShopGo\AdvancedAcl\Model\Cache\Config\Reader" type="ShopGo\AdvancedAcl\Model\Config\Reader">
         <arguments>
             <argument name="schemaLocator" xsi:type="object">ShopGo\AdvancedAcl\Model\Cache\Config\SchemaLocator</argument>
@@ -50,6 +60,11 @@
             <argument name="configReader" xsi:type="object">ShopGo\AdvancedAcl\Model\Cache\Config\Reader</argument>
         </arguments>
     </type>
+    <virtualType name="ShopGo\AdvancedAcl\Model\Menu\Config\SchemaLocator" type="ShopGo\AdvancedAcl\Model\Config\SchemaLocator">
+        <arguments>
+            <argument name="fileName" xsi:type="string">menu.xsd</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="ShopGo\AdvancedAcl\Model\Menu\Config\Reader" type="ShopGo\AdvancedAcl\Model\Config\Reader">
         <arguments>
             <argument name="schemaLocator" xsi:type="object">ShopGo\AdvancedAcl\Model\Menu\Config\SchemaLocator</argument>
@@ -61,6 +76,11 @@
             <argument name="configReader" xsi:type="object">ShopGo\AdvancedAcl\Model\Menu\Config\Reader</argument>
         </arguments>
     </type>
+    <virtualType name="ShopGo\AdvancedAcl\Model\Authorization\Resource\Config\SchemaLocator" type="ShopGo\AdvancedAcl\Model\Config\SchemaLocator">
+        <arguments>
+            <argument name="fileName" xsi:type="string">authorization_resource.xsd</argument>
+        </arguments>
+    </virtualType>
     <virtualType name="ShopGo\AdvancedAcl\Model\Authorization\Resource\Config\Reader" type="ShopGo\AdvancedAcl\Model\Config\Reader">
         <arguments>
             <argument name="schemaLocator" xsi:type="object">ShopGo\AdvancedAcl\Model\Authorization\Resource\Config\SchemaLocator</argument>

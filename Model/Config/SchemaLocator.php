@@ -3,15 +3,20 @@
  * Copyright © 2015 ShopGo. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace ShopGo\AdvancedAcl\Model\System\Config;
+namespace ShopGo\AdvancedAcl\Model\Config;
 
 use Magento\Framework\Module\Dir;
 
 /**
- * System configuration schema locator
+ * Schema locator
  */
 class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
 {
+    /**
+     * Module name
+     */
+    const MODULE_NAME = 'ShopGo_AdvancedAcl';
+
     /**
      * Path to corresponding XSD file with validation rules for merged config
      *
@@ -28,13 +33,16 @@ class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
 
     /**
      * @param \Magento\Framework\Module\Dir\Reader $moduleReader
+     * @param string $fileName
      */
-    public function __construct(\Magento\Framework\Module\Dir\Reader $moduleReader)
-    {
+    public function __construct(
+        \Magento\Framework\Module\Dir\Reader $moduleReader,
+        $fileName = ''
+    ) {
         $etcDir = $moduleReader->getModuleDir(
-            \Magento\Framework\Module\Dir::MODULE_ETC_DIR, 'ShopGo_AdvancedAcl'
+            \Magento\Framework\Module\Dir::MODULE_ETC_DIR, self::MODULE_NAME
         );
-        $this->_schema = $etcDir . '/system_config.xsd';
+        $this->_schema = $etcDir . $fileName;
     }
 
     /**
