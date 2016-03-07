@@ -13,14 +13,24 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 class Reader extends \Magento\Framework\Config\Reader\Filesystem
 {
     /**
-     * ACL file path
+     * Vendor config directory path
      */
-    const ACL_CONFIG_DIRECTORY_PATH = 'shopgo/advanced_acl/';
+    const VENDOR_CONFIG_DIRECTORY_PATH = 'vendor/shopgo/advanced-acl-config/';
+
+    /**
+     * Var config directory path
+     */
+    const VAR_CONFIG_DIRECTORY_PATH = 'shopgo/advanced_acl/';
 
     /**
      * @var \Magento\Framework\Filesystem
      */
     protected $_filesystem;
+
+    /**
+     * @var \Magento\Framework\Filesystem\Directory\ReadInterface
+     */
+    protected $_rootDirectory;
 
     /**
      * @var \Magento\Framework\Filesystem\Directory\ReadInterface
@@ -45,12 +55,12 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
     /**
      * @var \DomDocument
      */
-    protected $_aclDom;
+    protected $_dom;
 
     /**
      * @var \DOMXPath
      */
-    protected $_aclDomXpath;
+    protected $_domXpath;
 
     /**
      * @param \Magento\Framework\Filesystem $filesystem
@@ -83,11 +93,12 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         $this->validationState   = $validationState;
         $this->_domDocumentClass = $domDocumentClass;
 
+        $this->_setRootDirectory();
         $this->_setVarDirectory();
 
-        if ($this->_aclFileExists()) {
-            $this->_setAclDom();
-            $this->_setAclDomXpath();
+        if ($this->_configFileExists()) {
+            $this->_setDom();
+            $this->_setDomXpath();
         }
 
         $this->_schemaFile = $schemaLocator->getSchema();
@@ -105,6 +116,15 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
     }
 
     /**
+     * Set Root directory
+     */
+    protected function _setRootDirectory()
+    {
+        $this->_rootDirectory = $this->_filesystem
+            ->getDirectoryRead(DirectoryList::ROOT);
+    }
+
+    /**
      * Set Var directory
      */
     protected function _setVarDirectory()
@@ -114,72 +134,98 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
     }
 
     /**
-     * Get ACL file absolute path
+     * Get Vendor config file absolute path
      *
      * @return string
      */
-    protected function _getAclFileAbsolutePath()
+    protected function _getVendorConfigFileAbsolutePath()
+    {
+        return $this->_rootDirectory->getAbsolutePath(
+            self::VENDOR_CONFIG_DIRECTORY_PATH . $this->_fileName
+        );
+    }
+
+    /**
+     * Get Var config file absolute path
+     *
+     * @return string
+     */
+    protected function _getVarConfigFileAbsolutePath()
     {
         return $this->_varDirectory->getAbsolutePath(
-            self::ACL_CONFIG_DIRECTORY_PATH . $this->_fileName
+            self::VAR_CONFIG_DIRECTORY_PATH . $this->_fileName
         );
     }
 
     /**
-     * Get ACL file absolute path
+     * Get config file XML content
      *
      * @return string
      */
-    protected function _getAclFileXmlContent()
+    protected function _getConfigFileXmlContent()
     {
-        return $this->_varDirectory->readFile(
-            self::ACL_CONFIG_DIRECTORY_PATH . $this->_fileName
+        $config = $this->_rootDirectory->readFile(
+            self::VENDOR_CONFIG_DIRECTORY_PATH . $this->_fileName
         );
+
+        if (!$config) {
+            $config = $this->_varDirectory->readFile(
+                self::VAR_CONFIG_DIRECTORY_PATH . $this->_fileName
+            );
+        }
+
+        return $config;
     }
 
     /**
-     * Set ACL DOM
+     * Set DOM
      */
-    protected function _setAclDom()
+    protected function _setDom()
     {
-        $this->_aclDom = new $this->_domDocumentClass(
-            $this->_getAclFileXmlContent(),
+        $this->_dom = new $this->_domDocumentClass(
+            $this->_getConfigFileXmlContent(),
             $this->validationState,
             [], null, null
         );
     }
 
     /**
-     * Set ACL DOM XPath
+     * Set DOM XPath
      */
-    protected function _setAclDomXpath()
+    protected function _setDomXpath()
     {
-        $this->_aclDomXpath = new \DOMXPath($this->_aclDom->getDom());
+        $this->_domXpath = new \DOMXPath($this->_dom->getDom());
     }
 
     /**
-     * Check whether ACL file exists
+     * Check whether config file exists
      *
      * @return boolean
      */
-    protected function _aclFileExists()
+    protected function _configFileExists()
     {
-        return $this->_varDirectory->isFile(
-            self::ACL_CONFIG_DIRECTORY_PATH . $this->_fileName
+        $vendorConfig = $this->_rootDirectory->isFile(
+            self::VENDOR_CONFIG_DIRECTORY_PATH . $this->_fileName
         );
+
+        $varConfig = $this->_varDirectory->isFile(
+            self::VAR_CONFIG_DIRECTORY_PATH . $this->_fileName
+        );
+
+        return $vendorConfig || $varConfig;
     }
 
     /**
-     * Validate ACL DOM
+     * Validate DOM
      *
      * @return boolean
      */
-    protected function _validateAclDom()
+    protected function _validateDom()
     {
         $result = true;
         $errors = [];
 
-        if ($this->_aclDom && !$this->_aclDom->validate($this->_schemaFile, $errors)) {
+        if ($this->_dom && !$this->_dom->validate($this->_schemaFile, $errors)) {
             $result = false;
         }
 
@@ -187,14 +233,14 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
     }
 
     /**
-     * Get ACL DOM XPath value
+     * Get DOM XPath value
      *
      * @param string $xpath
      * @return string
      */
-    protected function _getAclDomXpathValue($xpath)
+    protected function _getDomXpathValue($xpath)
     {
-        return $this->_aclDomXpath->query($xpath);
+        return $this->_domXpath->query($xpath);
     }
 
     /**
@@ -206,12 +252,12 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
     {
         $user = $this->_authSession->getUser()->getUsername();
 
-        $element = $this->_getAclDomXpathValue(
+        $element = $this->_getDomXpathValue(
             '//users/user[@name="*"]'
         );
 
         if ($element->item(0) !== null) {
-            $excludedUsers = $this->_getAclDomXpathValue(
+            $excludedUsers = $this->_getDomXpathValue(
                 '//users/user[@name="*"]/exclude'
             );
 
@@ -227,7 +273,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
                 }
             }
         } else {
-            $element = $this->_getAclDomXpathValue(
+            $element = $this->_getDomXpathValue(
                 '//users/user[@name="' . $user . '"]'
             );
         }
@@ -279,7 +325,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      */
     public function getConfigElement($element, $root, $accessor, $argument)
     {
-        if (!$this->_aclFileExists() || !$this->_validateAclDom()) {
+        if (!$this->_configFileExists() || !$this->_validateDom()) {
             return null;
         }
 
@@ -298,7 +344,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         ];
 
         $element = array_merge($root, $element);
-        $element = $this->_getAclDomXpathValue($this->_getConfigXpath($element));
+        $element = $this->_getDomXpathValue($this->_getConfigXpath($element));
 
         if ($element->item(0) !== null
             && $element->item(0)->{$accessor}($argument) !== '') {
