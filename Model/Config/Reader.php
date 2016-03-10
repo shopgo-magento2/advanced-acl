@@ -250,7 +250,13 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      */
     protected function _getAdminUserAcl()
     {
-        $user = $this->_authSession->getUser()->getUsername();
+        $user = $this->_authSession->getUser();
+
+        if (!$user) {
+            return false;
+        }
+
+        $user = $user->getUsername();
 
         $element = $this->_getDomXpathValue(
             '//users/user[@name="*"]'
