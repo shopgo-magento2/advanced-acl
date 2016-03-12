@@ -38,6 +38,16 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
     protected $_varDirectory;
 
     /**
+     * @var string
+     */
+    protected $_vendorConfigFile;
+
+    /**
+     * @var string
+     */
+    protected $_varConfigFile;
+
+    /**
      * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
@@ -164,11 +174,15 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      */
     protected function _getConfigFileXmlContent()
     {
-        $config = $this->_rootDirectory->readFile(
-            self::VENDOR_CONFIG_DIRECTORY_PATH . $this->_fileName
-        );
+        $config = '';
 
-        if (!$config) {
+        if ($this->_vendorConfigFile) {
+            $config = $this->_rootDirectory->readFile(
+                self::VENDOR_CONFIG_DIRECTORY_PATH . $this->_fileName
+            );
+        }
+
+        if (!$config && $this->_varConfigFile) {
             $config = $this->_varDirectory->readFile(
                 self::VAR_CONFIG_DIRECTORY_PATH . $this->_fileName
             );
@@ -204,15 +218,15 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      */
     protected function _configFileExists()
     {
-        $vendorConfig = $this->_rootDirectory->isFile(
+        $this->_vendorConfigFile = $this->_rootDirectory->isFile(
             self::VENDOR_CONFIG_DIRECTORY_PATH . $this->_fileName
         );
 
-        $varConfig = $this->_varDirectory->isFile(
+        $this->_varConfigFile = $this->_varDirectory->isFile(
             self::VAR_CONFIG_DIRECTORY_PATH . $this->_fileName
         );
 
-        return $vendorConfig || $varConfig;
+        return $this->_vendorConfigFile || $this->_varConfigFile;
     }
 
     /**
