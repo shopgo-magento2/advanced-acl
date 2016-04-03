@@ -16,17 +16,14 @@
     <preference for="Magento\Backend\Controller\Adminhtml\Cache\CleanMedia" type="ShopGo\AdvancedAcl\Controller\Adminhtml\Cache\CleanMedia"/>
     <preference for="Magento\Backend\Controller\Adminhtml\Cache\CleanStaticFiles" type="ShopGo\AdvancedAcl\Controller\Adminhtml\Cache\CleanStaticFiles"/>
     <preference for="Magento\Framework\AuthorizationInterface" type="ShopGo\AdvancedAcl\Model\Authorization"/>
-    <preference for="Magento\Backend\Model\Menu\Director\Director" type="ShopGo\AdvancedAcl\Model\Menu\Director\Director"/>
-    <type name="ShopGo\AdvancedAcl\Model\Menu\Director\Director" shared="false">
-        <arguments>
-            <argument name="advAclModelMenuConfig" xsi:type="object">ShopGo\AdvancedAcl\Model\Menu\Config\Proxy</argument>
-        </arguments>
-    </type>
     <type name="Magento\Config\Model\Config\Structure\Element\Tab">
         <plugin name="element_tab" type="ShopGo\AdvancedAcl\Model\Plugin\Config\Structure\Element\Tab" sortOrder="1" disabled="false"/>
     </type>
     <type name="Magento\Config\Model\Config\Structure\Element\Section">
         <plugin name="element_section" type="ShopGo\AdvancedAcl\Model\Plugin\Config\Structure\Element\Section" sortOrder="1" disabled="false"/>
+    </type>
+    <type name="Magento\Backend\Model\Menu\Item">
+        <plugin name="menu_item" type="ShopGo\AdvancedAcl\Model\Plugin\Menu\Item" sortOrder="1" disabled="false"/>
     </type>
     <virtualType name="ShopGo\AdvancedAcl\Model\System\Config\SchemaLocator" type="ShopGo\AdvancedAcl\Model\Config\SchemaLocator">
         <arguments>
