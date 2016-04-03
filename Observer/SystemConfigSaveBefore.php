@@ -67,14 +67,20 @@ class SystemConfigSaveBefore implements ObserverInterface
         $configData = $observer->getEvent()['config_data']->getData();
         $configPath = explode('/', $configData['path']);
 
-        /** @var $section \Magento\Config\Model\Config\Structure\Element\Section */
-        $section  = $this->_configStructure->getElement($configPath[0]);
         $elements = [
-            'tab'     => ['attributes' => ['id' => $section->getData()['tab']]],
             'section' => ['attributes' => ['id' => $configPath[0]]],
             'group'   => ['attributes' => ['id' => $configPath[1]]],
             'field'   => ['attributes' => ['id' => $configPath[2]]]
         ];
+
+        /** @var $section \Magento\Config\Model\Config\Structure\Element\Section */
+        $section  = $this->_configStructure->getElement($configPath[0]);
+        if (isset($section->getData()['tab'])) {
+            $elements = array_merge(
+                ['tab' => ['attributes' => ['id' => $section->getData()['tab']]]],
+                $elements
+            );
+        }
 
         //@TODO: Not a pretty sight!
         //This is an expensive way to achieve a fallback mechanism.

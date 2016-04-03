@@ -69,12 +69,19 @@ class Form extends \Magento\Config\Block\System\Config\Form
         $section = $this->_configStructure->getElement($this->getSectionCode());
         if ($section && $section->isVisible($this->getWebsiteCode(), $this->getStoreCode())) {
             foreach ($section->getChildren() as $group) {
-                $access = $this->_advAclModelSystemConfig
-                    ->getSystemConfigAccess([
-                        'tab'     => ['attributes' => ['id' => $section->getData()['tab']]],
-                        'section' => ['attributes' => ['id' => $section->getId()]],
-                        'group'   => ['attributes' => ['id' => $group->getId()]]
-                    ]);
+                $elements = [
+                    'section' => ['attributes' => ['id' => $section->getId()]],
+                    'group'   => ['attributes' => ['id' => $group->getId()]]
+                ];
+
+                if (isset($section->getData()['tab'])) {
+                    $elements = array_merge(
+                        ['tab' => ['attributes' => ['id' => $section->getData()['tab']]]],
+                        $elements
+                    );
+                }
+
+                $access = $this->_advAclModelSystemConfig->getSystemConfigAccess($elements);
 
                 if ($access) {
                     $this->_initGroup($group, $section, $form);
@@ -112,13 +119,20 @@ class Form extends \Magento\Config\Block\System\Config\Form
 
         /** @var $element \Magento\Config\Model\Config\Structure\Element\Field */
         foreach ($group->getChildren() as $element) {
-            $access = $this->_advAclModelSystemConfig
-                ->getSystemConfigAccess([
-                    'tab'     => ['attributes' => ['id' => $section->getData()['tab']]],
-                    'section' => ['attributes' => ['id' => $section->getId()]],
-                    'group'   => ['attributes' => ['id' => $group->getId()]],
-                    'field'   => ['attributes' => ['id' => $element->getId()]]
-                ]);
+            $elements = [
+                'section' => ['attributes' => ['id' => $section->getId()]],
+                'group'   => ['attributes' => ['id' => $group->getId()]],
+                'field'   => ['attributes' => ['id' => $element->getId()]]
+            ];
+
+            if (isset($section->getData()['tab'])) {
+                $elements = array_merge(
+                    ['tab' => ['attributes' => ['id' => $section->getData()['tab']]]],
+                    $elements
+                );
+            }
+
+            $access = $this->_advAclModelSystemConfig->getSystemConfigAccess($elements);
 
             if (!$access) {
                 continue;
