@@ -13,7 +13,7 @@ use \Magento\Config\Model\Config\Structure\Element\Section as ElementSection;
 class Section
 {
     /**
-     * @var \ShopGo\AdvancedBackendAcm\Model\System\Config
+     * @var \ShopGo\AdvancedAcl\Model\System\Config
      */
     protected $_advAclModelSystemConfig;
 

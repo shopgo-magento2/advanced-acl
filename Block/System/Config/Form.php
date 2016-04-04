@@ -14,7 +14,7 @@ namespace ShopGo\AdvancedAcl\Block\System\Config;
 class Form extends \Magento\Config\Block\System\Config\Form
 {
     /**
-     * @var \ShopGo\AdvancedBackendAcm\Model\System\Config
+     * @var \ShopGo\AdvancedAcl\Model\System\Config
      */
     protected $_advAclModelSystemConfig;
 
